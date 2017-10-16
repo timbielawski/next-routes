@@ -175,7 +175,7 @@ const toQuerystring = obj => Object.keys(obj).map(key => {
     value = value.join('/')
   }
   return [
-    encodeURIComponent(key),
-    encodeURIComponent(value)
+    key,
+    value
   ].join('=')
 }).join('&')
