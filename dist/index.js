@@ -294,6 +294,6 @@ var toQuerystring = function toQuerystring(obj) {
     if (Array.isArray(value)) {
       value = value.join('/');
     }
-    return [encodeURIComponent(key), encodeURIComponent(value)].join('=');
+    return [key, value].join('=');
   }).join('&');
 };
