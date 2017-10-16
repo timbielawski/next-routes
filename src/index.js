@@ -96,6 +96,8 @@ class Routes {
         Object.assign(newProps, this.findAndGetUrls(nameOrUrl, params).urls)
       }
 
+      console.log(newProps);
+
       return <Link {...newProps} />
     }
     return LinkRoutes
@@ -175,7 +177,7 @@ const toQuerystring = obj => Object.keys(obj).map(key => {
     value = value.join('/')
   }
   return [
-    key,
-    value
+    encodeURIComponent(key),
+    encodeURIComponent(value)
   ].join('=')
 }).join('&')
