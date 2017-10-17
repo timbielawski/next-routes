@@ -4,6 +4,11 @@ import {parse} from 'url'
 import NextLink from 'next/link'
 import NextRouter from 'next/router'
 
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
 module.exports = opts => new Routes(opts)
 
 class Routes {
@@ -96,7 +101,6 @@ class Routes {
         Object.assign(newProps, this.findAndGetUrls(nameOrUrl, params).urls)
       }
 
-      console.log(newProps);
 
       return <Link {...newProps} />
     }
@@ -128,6 +132,7 @@ class Route {
     this.regex = pathToRegexp(this.pattern, this.keys = [])
     this.keyNames = this.keys.map(key => key.name)
     this.toPath = pathToRegexp.compile(this.pattern)
+    
   }
 
   match (path) {
@@ -151,7 +156,8 @@ class Route {
   }
 
   getAs (params = {}) {
-    const as = this.toPath(params) || '/'
+    const as_dirty = this.toPath(params) || '/'
+    const as = as_dirty.replaceAll('%2F', '/');
     const keys = Object.keys(params)
     const qsKeys = keys.filter(key => this.keyNames.indexOf(key) === -1)
 
@@ -178,6 +184,6 @@ const toQuerystring = obj => Object.keys(obj).map(key => {
   }
   return [
     encodeURIComponent(key),
-    encodeURIComponent(value)
+    value
   ].join('=')
 }).join('&')
