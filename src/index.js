@@ -132,7 +132,7 @@ class Route {
     this.regex = pathToRegexp(this.pattern, this.keys = [])
     this.keyNames = this.keys.map(key => key.name)
     this.toPath = pathToRegexp.compile(this.pattern)
-    
+
   }
 
   match (path) {
@@ -146,7 +146,7 @@ class Route {
     return values.reduce((params, val, i) => {
       if (val === undefined) return params
       return Object.assign(params, {
-        [this.keys[i].name]: val
+        [this.keys[i].name]: decodeURIComponent(val)
       })
     }, {})
   }
@@ -187,3 +187,4 @@ const toQuerystring = obj => Object.keys(obj).map(key => {
     value
   ].join('=')
 }).join('&')
+
